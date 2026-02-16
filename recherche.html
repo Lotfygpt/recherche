@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Rémunération Bancaire - Sécurisé</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0d11;
+            --card-bg: #16191e;
+            --inner-box: #1c2128;
+            --gold: #d4af37;
+            --red-alert: #ff4d4d;
+            --snap-yellow: #FFFC00;
+            --white: #ffffff;
+            --text-grey: #94a3b8;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--white);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 16px;
+            border-left: 4px solid var(--gold);
+        }
+
+        .section-title h2 { margin: 0; font-size: 1.8rem; color: var(--gold); }
+        .section-title p { margin: 0; color: var(--text-grey); font-size: 1.1rem; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover { transform: translateY(-5px); }
+
+        .badge-canal {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--gold);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 20px;
+            align-self: flex-start;
+        }
+
+        .bank-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .bank-logo {
+            width: 50px; height: 50px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; color: white; flex-shrink: 0;
+        }
+
+        .bank-name h3 { margin: 0; font-size: 1.3rem; font-weight: 700; }
+        .bank-name p { margin: 0; font-size: 0.85rem; color: var(--gold); font-weight: 700; text-transform: uppercase; }
+
+        .price-box {
+            background-color: var(--inner-box);
+            border-radius: 16px;
+            padding: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .price-label { color: var(--text-grey); font-size: 0.9rem; font-weight: 600; }
+        .price-value { font-size: 1.5rem; font-weight: 800; color: var(--gold); }
+
+        .refusal-note {
+            margin-top: 15px;
+            font-size: 0.75rem;
+            color: var(--red-alert);
+            font-weight: 700;
+            text-align: center;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        /* --- EFFET DE CLIGNOTEMENT / PULSATION --- */
+        @keyframes pulse-snap {
+            0% { box-shadow: 0 0 0 0 rgba(255, 252, 0, 0.7); transform: scale(1); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 252, 0, 0); transform: scale(1.02); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 252, 0, 0); transform: scale(1); }
+        }
+
+        .snapchat-contact {
+            margin-top: auto;
+            background: var(--snap-yellow);
+            color: #000;
+            padding: 12px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            /* Animation appliquée ici */
+            animation: pulse-snap 2s infinite;
+        }
+
+        .snapchat-contact:hover { 
+            opacity: 0.9;
+            animation: none; /* On stoppe l'animation au survol pour plus de précision */
+            transform: scale(1.05);
+        }
+        .snap-icon { font-size: 1.2rem; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="section-header">
+        <span style="font-size: 40px;">🏢</span>
+        <div class="section-title">
+            <h2>Réseaux Agence</h2>
+            <p>Type de compte : VISA PREMIER minimum</p>
+        </div>
+    </div>
+
+    <div class="grid" id="grid-hybride"></div>
+
+    <div class="section-header" style="border-left-color: #22d3ee;">
+        <span style="font-size: 40px;">🌐</span>
+        <div class="section-title">
+            <h2 style="color: #22d3ee;">Banques en Ligne</h2>
+            <p>Type de compte : Équivalent Gold / Premier</p>
+        </div>
+    </div>
+
+    <div class="grid" id="grid-online"></div>
+
+</div>
+
+<script>
+    const tradBanks = [
+        { name: "Société Générale", logo: "SG", color: "#e60028" },
+        { name: "BNP Paribas", logo: "BNP", color: "#00915a" },
+        { name: "Crédit Agricole", logo: "CA", color: "#007a5e" },
+        { name: "LCL", logo: "LCL", color: "#00529b" },
+        { name: "Banque Populaire", logo: "BP", color: "#00a1e4" },
+        { name: "Caisse d'Épargne", logo: "CE", color: "#ff0000" },
+        { name: "Crédit Mutuel", logo: "CM", color: "#004685" },
+        { name: "CIC", logo: "CIC", color: "#002d62" },
+        { name: "La Banque Postale", logo: "LBP", color: "#314295" }
+    ];
+
+    const onlineBanks = [
+        { name: "Boursorama", logo: "B", color: "#e61b7e" },
+        { name: "Hello Bank!", logo: "HB", color: "#00dbde" },
+        { name: "Fortuneo", logo: "F", color: "#000" },
+        { name: "Monabanq", logo: "M", color: "#004a8d" },
+        { name: "BforBank", logo: "BfB", color: "#0f172a" }
+    ];
+
+    function createCard(bank, isOnlineOnly) {
+        return `
+            <div class="card">
+                <div class="badge-canal">📍 ${isOnlineOnly ? 'CANAL DIGITAL' : 'CANAL AGENCE'}</div>
+                <div class="bank-header">
+                    <div class="bank-logo" style="background-color: ${bank.color}">${bank.logo}</div>
+                    <div class="bank-name">
+                        <h3>${bank.name}</h3>
+                        <p>VISA PREMIER</p>
+                    </div>
+                </div>
+                <div class="price-box">
+                    <span class="price-label">Ouverture Agence</span>
+                    <span class="price-value">${isOnlineOnly ? '-' : '1000 €'}</span>
+                </div>
+                <div class="price-box">
+                    <span class="price-label">Ouverture Ligne</span>
+                    <span class="price-value">300 €</span>
+                </div>
+                <div class="refusal-note">
+                    Les comptes en dessous de VISA PREMIER ne seront pas acceptés
+                </div>
+                <a href="https://snapchat.com/t/9JEWHj7q" target="_blank" class="snapchat-contact">
+                    <span class="snap-icon">👻</span> Nous contacter
+                </a>
+            </div>
+        `;
+    }
+
+    document.getElementById('grid-hybride').innerHTML = tradBanks.map(b => createCard(b, false)).join('');
+    document.getElementById('grid-online').innerHTML = onlineBanks.map(b => createCard(b, true)).join('');
+</script>
+
+</body>
+</html>
